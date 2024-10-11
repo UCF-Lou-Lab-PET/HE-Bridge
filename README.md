@@ -99,7 +99,7 @@ Runtime breakdown. We use the built-in timer in HElib to log the runtime of each
     Lifting: 5.72996 / 1 = 5.72996 
     ReLU: 18.7374 / 1 = 18.7374
 
-Result verification. We generate ramdom numbers for testing. Under SIMD, ℓ ReLU can be computed in paralell. Here we show the first 10 random inputs and the decrypted results.
+Result verification. We generate ramdom numbers for testing. Under SIMD, ℓ ReLU functions can be computed in paralell. Here we show the first 10 random inputs and the decrypted results.
 
     Input: 1643 1203 -1478 1675 -1772 -75 976 2113 1592 189
     Decrypted ReLU: [1643] [1203] [0] [1675] [0] [0] [976] [2113] [1592] [189]
