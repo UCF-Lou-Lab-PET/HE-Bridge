@@ -6,7 +6,7 @@ FV-style HE Schemes (in CCS WAHC'24).
 Our implementaion is based on HElib and polynomial interpolation-based methods for FV-style HE schemes, such as [Faster Comparison](https://eprint.iacr.org/2021/315). Please note that the codes are still under development and should not be used in any security-sensitive environments. Future version of this code will be released soon.
 
 ## Build and installation
-Before building and installing HElib, please add the functions in ```src/Ctxt.h``` to ```include/helib/Ctxt.h```. Then, follow the instruciton in [HElib](https://github.com/homenc/HElib) for installation. After installation, add the path of HElib to the makefile as:
+Before building and installing HElib, please add the functions in ```src/Ctxt.h``` (in this project) to ```include/helib/Ctxt.h``` (in the source of HElib). Then, follow the instruciton in [HElib](https://github.com/homenc/HElib) for installation. After installation, add the path of HElib to the makefile as:
 
     set(helib_DIR ".../helib_install/helib_pack/share/cmake/helib")
 
