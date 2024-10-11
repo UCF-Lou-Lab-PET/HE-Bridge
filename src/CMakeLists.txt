@@ -19,9 +19,6 @@ find_package(helib REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR})
 
-add_executable(test test.cpp tools.cpp)
-target_link_libraries(test helib)
-
 add_executable(bridge_circuit bridge_circuit.cpp bridge.cpp tools.cpp)
 target_link_libraries(bridge_circuit helib)
 
