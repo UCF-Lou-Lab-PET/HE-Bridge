@@ -39,13 +39,6 @@ int main(int argc, char *argv[]) {
     amap.arg("c", c, "Number of columns of Key-Switching matrix");
     amap.arg("t", t, "The hamming weight of sk");
     amap.parse(argc, argv);
-
-    
-    // k-bits of security, nBits=ct mod (level), c, p=pt prime, d=order p, s=slots, chosen_m, 0
-    // long FindM(long k, long nBits, long c, long p, long d, long s, long chosen_m, bool verbose);
-    m = helib::FindM(120, bits, c, p, 0, 0, 0);
-    // cout << "FindM()-> " << m << endl;
-
     unsigned long d = r;
     std::cout << "m=" << m
             << ", p=" << p
