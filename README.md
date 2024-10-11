@@ -1,4 +1,4 @@
-# HEBridge: Connecting arithmetic and logic operations in FV-style HE schemes
+# HEBridge: Connecting Arithmetic and Logic Operations in FV-style HE Schemes
 
 This is a demo code for HEBridge: Connecting Arithmetic and Logic Operations in
 FV-style HE Schemes (in CCS WAHC'24).
