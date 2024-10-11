@@ -26,6 +26,7 @@ paper/
 .vscode/
 
 
+
 # Build Directory
 build/
 bin/
