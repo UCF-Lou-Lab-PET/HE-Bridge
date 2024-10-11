@@ -24,3 +24,9 @@ code/build
 paper/
 .idea/
 .vscode/
+
+
+# Build Directory
+build/
+bin/
+.vscode/
