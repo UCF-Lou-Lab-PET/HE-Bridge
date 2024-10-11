@@ -1,18 +1,24 @@
 # HEBridge: Connecting arithmetic and logic operations in FV-style HE schemes
 
-This is a demo code for HEBridge: Connecting arithmetic and logic operations in FV-style
-HE schemes. Our implementaion is based on HElib and polynomial interpolation-based methods for FV-style HE schemes, such as [Faster Comparison](https://eprint.iacr.org/2021/315). Please note that the codes are still under development and should not be used in any security-sensitive environments. Future version of this code will be released soon.
+This is a demo code for HEBridge: Connecting Arithmetic and Logic Operations in
+FV-style HE Schemes (in CCS WAHC'24).
 
-## Installation
-[HElib](https://github.com/homenc/HElib) should be first installed. Additionally, add the path of HElib to the makefile
+Our implementaion is based on HElib and polynomial interpolation-based methods for FV-style HE schemes, such as [Faster Comparison](https://eprint.iacr.org/2021/315). Please note that the codes are still under development and should not be used in any security-sensitive environments. Future version of this code will be released soon.
+
+## Build and installation
+Before building and installing HElib, please add the functions in ```src/Ctxt.h``` to ```include/helib/Ctxt.h```. Then, follow the instruciton in [HElib](https://github.com/homenc/HElib) for installation. Additionally, add the path of HElib to the makefile as:
 
     set(helib_DIR ".../helib_install/helib_pack/share/cmake/helib")
 
-and then, tun
+Once HElib is installed, you can build this project. Under the  ```./src``` directory, run
+
+    mkdir build && cd build
+
+and then, run:
 
     cmake .
 
-finally, build the project by
+finally, build the project by:
 
     make
 

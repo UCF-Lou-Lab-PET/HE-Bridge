@@ -7,8 +7,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 ## Require full C++ standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(helib_DIR "/home/yancheng/helib_install/helib_pack/share/cmake/helib")
-# set(helib_DIR "/usr/local/helib_pack/share/cmake/helib")
+# set the helib install location
+set(helib_DIR "your_path_to_helib_install")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
