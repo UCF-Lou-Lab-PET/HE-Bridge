@@ -18,9 +18,13 @@ finally, build the project by
 
 ## Testing
 ### Switch from FV to beFV and evaluate logic operaions
-A simple test includes (1) the reduction function, which map the input from FV to beFV. (2) the evaluation in beFV, i.e., an interpolation polynomial of degree p. (3) Lifting from beFV to FV. To run a test, set the parameter as arguments:
+A simple test includes (1) the reduction function, which map the input from FV to beFV. (2) the evaluation in beFV, i.e., an interpolation polynomial of degree p. (3) Lifting from beFV to FV. We provide some parameter settings as follows:
   
-    ./bin/m_test p=17 r=2 m=13201 b=256 t=64
+    ./bin/bridge_circuit p=3 r=4 m=14401 b=300 t=64
+
+    ./bin/bridge_circuit p=5 r=4 m=25351 b=512 t=64
+    
+    ./bin/bridge_circuit p=67 r=2 m=31159 b=690 t=64
     
 where:
 - **p**: a prime number for the base plaintext modulus in beFV.
