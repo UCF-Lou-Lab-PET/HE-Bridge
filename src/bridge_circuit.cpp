@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
     Bridge bridge(context, type, r, expansion_len, secret_key, verbose);
 
     int runs = 1;
-    bridge.test_bridge(runs);
+    bridge.m_test_bridge(runs);
 
     return 0;
 }

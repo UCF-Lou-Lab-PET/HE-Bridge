@@ -16,7 +16,7 @@ Once HElib is installed, you can build this project. Under the  ```./src``` dire
 
 and then, run:
 
-    cmake .
+    cmake ..
 
 finally, build the project by:
 

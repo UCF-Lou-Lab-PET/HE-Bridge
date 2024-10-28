@@ -641,9 +641,6 @@ void Bridge::compare(Ctxt& ctxt_res, const Ctxt& ctxt_x) const{
 
 	// decompose z to mod p digits
 	vector<Ctxt> ctxt_z_p;
-
-	HELIB_NTIMER_START(ReLU);
-
 	HELIB_NTIMER_START(Reduction);
 	reduce(ctxt_z_p, ctxt_z, r);
 	HELIB_NTIMER_STOP(Reduction);
@@ -705,7 +702,6 @@ void Bridge::compare(Ctxt& ctxt_res, const Ctxt& ctxt_x) const{
 		return;
 	}
 	HELIB_NTIMER_STOP(Aggregation);
-    HELIB_NTIMER_STOP(ReLU);
 }
 
 
@@ -1047,5 +1043,117 @@ void Bridge::test_bridge(long runs) const{
 		}
 		cout<<endl;
 
+	}
+
+
+
+}
+
+// test compare on Z_pr
+// compare with 0
+void Bridge::m_test_bridge(long runs) const{
+	//reset timers
+  	setTimersOn();
+
+	//generate random data
+	random_device rd;
+  	mt19937 eng(rd());
+  	uniform_int_distribution<unsigned long> distr_u;
+  	uniform_int_distribution<long> distr_i;
+
+	// get EncryptedArray
+	const EncryptedArray& ea = m_context.getEA();
+	//extract number of slots
+	long nslots = ea.size();
+	unsigned long p = m_context.getP();
+	unsigned long ord_p = m_context.getOrdP();
+	unsigned long r = m_context.getR();
+	unsigned long p2r = m_context.getPPowR();
+	// input digit is from [-p/2, p/2]
+	unsigned long enc_base = p;
+	unsigned long input_range = p2r;
+
+	long min_capacity = 1000;
+  	long capacity;
+  	for (int run = 0; run < runs; run++){
+        printf("\n");
+    	printf("Run %d started\n", run);
+
+		vector<ZZX> expected_result(nslots);
+    	vector<ZZX> decrypted(nslots);
+		vector<int> expected_sign(nslots);
+
+		// check x > 0 ?
+        // The comparison logic depends on how integers / fixed-point numbers are encoded in the plaintext space
+        // For x \in [p/2, p], we return 1. (In spirit, we encode 0 as p/2) 
+		long input_x;
+		std::vector<long> x_vec(nslots);
+
+		for (int i = 0; i < nslots; i++){
+			input_x = distr_u(eng) % input_range;
+			x_vec[i] = input_x;
+
+			if (input_x > (p2r/2)){
+				expected_result[i] = ZZX(INIT_MONO, 0, 1);
+				expected_sign[i] = 1;
+			}
+			else{
+				expected_result[i] = ZZX(INIT_MONO, 0, 0);
+				expected_sign[i] = 0;
+			}
+		}
+
+		// encrypt
+		Ctxt ctxt_x(m_pk);
+		Ctxt ctxt_res(m_pk);
+		ea.encrypt(ctxt_x, m_pk, x_vec);
+		CheckCtxt(ctxt_x, "[Initial] Airthmetic value (in FV)");
+		HELIB_NTIMER_START(Linear);
+		ctxt_res = ctxt_x;
+		long scale = 2;
+		// ctxt_l.multiplyBy(tmp);
+		for (long i =0; i<128; i++){
+			ctxt_res.multByConstant(scale);
+		}
+		for (long i=0; i<20; i++){
+			long shift = 2;
+			if(shift == 0)
+				break;
+			ea.rotate(ctxt_res, shift);
+		}
+		HELIB_NTIMER_STOP(Linear);
+
+        // res = x > 0?
+        // x in FV -> reduce -> interpolation in beFV -> result in beFV -> lift -> result in FV
+		compare(ctxt_res, ctxt_x);
+		CheckCtxt(ctxt_res, "[beFV] Logic result (in beFV)");
+		// check logic operation in beFV
+        // whether the comparison succeeded
+		ea.decrypt(ctxt_res, m_sk, decrypted);
+        for(int i = 0; i < nslots; i++)
+        { 
+			if (decrypted[i] != expected_result[i])
+			{
+				printf("Slot %ld: ", i);
+				cout << endl;
+				cout << "Failure" << endl;
+				return;
+			}
+        }
+        cout << "[beFV] Success" << endl;
+
+		HELIB_NTIMER_START(Lifting);
+		ctxt_x.multiplyModByP2R();
+		Ctxt ctxt_res_fv(m_pk);
+		lift(ctxt_res_fv, ctxt_x, r-1);
+		HELIB_NTIMER_STOP(Lifting);
+
+        cout << endl;
+		printNamedTimer(cout, "Linear");
+        printNamedTimer(cout, "Reduction");
+        printNamedTimer(cout, "ComparisonCircuitUnivar");
+		printNamedTimer(cout, "Aggregation");
+		printNamedTimer(cout, "Lifting");
+		cout << endl;
 	}
 }

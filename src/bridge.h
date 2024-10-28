@@ -98,16 +98,16 @@ class Bridge{
 
     // comparison x>0?
     void compare(Ctxt& ctxt_res, const Ctxt& ctxt_x) const;
-
     void reduce(std::vector<Ctxt>& digits, const Ctxt& c, long r) const;
     void lift(Ctxt& res, const Ctxt& c, long r) const;
-
     void print_decrypted(const Ctxt& ctxt) const;
 
     // input is from FV, evalute a relu in beFV and switch the result back to FV
     // the relu is based on the comparison function
     // test the arith-relu function with HEBridge
     void test_bridge(long runs) const;
+
+    void m_test_bridge(long runs) const;
 };
 }
 
