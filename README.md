@@ -129,3 +129,6 @@ For example, to for $(p,r)=(31,4)$, run ```./bin/bridge_circuit p=31 r=4 m=42407
 
 The runtime breakdown for other tests can be obtained similarly.
 ![workflow](./figure/table3.jpg "HEBridge")
+
+### Functions involved
+Check ```Bridge::m_test_bridge()``` to see what is inclued in the tests. There are mainly four parts. (1) Linear computation in FV. This includes ```multByConstant()``` and ```rotate()```. (2) Reduction to beFV. In ```Bridge::compare()```, the ```Bridge::reduce()``` is called. (3) Interpolation in beFV. The ```evaluate_univar_less_poly()``` is called. (4) Lifting to FV. The ```Bridge::lift()``` is called.
