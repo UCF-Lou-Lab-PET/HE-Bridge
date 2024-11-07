@@ -1108,6 +1108,7 @@ void Bridge::m_test_bridge(long runs) const{
 		Ctxt ctxt_res(m_pk);
 		ea.encrypt(ctxt_x, m_pk, x_vec);
 		CheckCtxt(ctxt_x, "[Initial] Airthmetic value (in FV)");
+		HELIB_NTIMER_START(ArithReLU);
 		HELIB_NTIMER_START(Linear);
 		ctxt_res = ctxt_x;
 		long scale = 2;
@@ -1115,7 +1116,7 @@ void Bridge::m_test_bridge(long runs) const{
 		for (long i =0; i<128; i++){
 			ctxt_res.multByConstant(scale);
 		}
-		for (long i=0; i<20; i++){
+		for (long i=0; i<8; i++){
 			long shift = 2;
 			if(shift == 0)
 				break;
@@ -1147,6 +1148,7 @@ void Bridge::m_test_bridge(long runs) const{
 		Ctxt ctxt_res_fv(m_pk);
 		lift(ctxt_res_fv, ctxt_x, r-1);
 		HELIB_NTIMER_STOP(Lifting);
+		HELIB_NTIMER_STOP(ArithReLU);
 
         cout << endl;
 		printNamedTimer(cout, "Linear");
@@ -1154,6 +1156,7 @@ void Bridge::m_test_bridge(long runs) const{
         printNamedTimer(cout, "ComparisonCircuitUnivar");
 		printNamedTimer(cout, "Aggregation");
 		printNamedTimer(cout, "Lifting");
+		printNamedTimer(cout, "ArithReLU");
 		cout << endl;
 	}
 }

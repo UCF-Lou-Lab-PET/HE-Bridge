@@ -1,7 +1,8 @@
 # HEBridge: Connecting Arithmetic and Logic Operations in FV-style HE Schemes
 
-This is a demo code for HEBridge: Connecting Arithmetic and Logic Operations in
-FV-style HE Schemes (in CCS WAHC'24).
+This is a demo code for HEBridge: Connecting Arithmetic and Logic Operations in FV-style HE Schemes (in CCS WAHC'24).
+
+![workflow](./figure/workflow.png "HEBridge")
 
 Our implementaion is based on HElib and polynomial interpolation-based methods for FV-style HE schemes, such as [Faster Comparison](https://eprint.iacr.org/2021/315). Please note that the codes are still under development and should not be used in any security-sensitive environments. Future version of this code will be released soon.
 
@@ -106,3 +107,25 @@ Result verification. We generate ramdom numbers for testing. Under SIMD, ℓ ReL
     Decrypted ReLU: [312] [127] [110] [0] [166] [0] [100] [167] [0] [173]
     Expected Sign: 1 1 1 0 1 0 1 1 0 1
     Decrypted Sign: [1] [1] [1] [0] [1] [0] [1] [1] [0] [1]
+
+## Reproducing the results
+### Arith-ReLU benchmark
+After building, to test the first the row of the table, run ```./bin/bridge_circuit p=5 r=4 m=16151 b=320 t=64```. Other rows can be tested similarly. To Total Time is in the ```ArithReLU``` part in the results. The amortized time can be computed by dividing the total time with the number of slots.
+![workflow](./figure/table2.jpg "HEBridge")
+
+### Comparison with existing works
+The direct interpolation methods is based on the univariate interpolation in [Faster Comparison](https://eprint.iacr.org/2021/315). The interpolation is done over $\mathbb{F}_p$ for some large prime $p$ such that $p\approx2^b$ where $b$ is the bit-width of the input. The LWE or RLWE conversion is the main bottleneck of schemeswitching, we approximate the time of shceme switching accordingly. For HE bridge, run ```./bin/bridge_circuit p=17 r=2 m=13201 b=256 t=64``` to get the latency for 8-bit inputs.
+![workflow](./figure/figure6.jpg "HEBridge")
+
+### Runtime breakdown
+For example, to for $(p,r)=(31,4)$, run ```./bin/bridge_circuit p=31 r=4 m=42407 b=879 t=64``` to get the breakdown. You should see results similar to the following:
+
+    Linear: 3.10322 / 1 = 3.10322  
+    Reduction: 46.3224 / 1 = 46.3224
+    ComparisonCircuitUnivar: 19.1163 / 4 = 4.77909
+    Aggregation: 2.57308 / 1 = 2.57308
+    Lifting: 16.8179 / 1 = 16.8179
+    ArithReLU: 91.0435 / 1 = 91.0435
+
+The runtime breakdown for other tests can be obtained similarly.
+![workflow](./figure/table3.jpg "HEBridge")
